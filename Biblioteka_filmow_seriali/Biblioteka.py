@@ -1,7 +1,7 @@
-from random import randrange
+from random import randint, randrange
 
 
-class Filmy:
+class Film:
     def __init__ (self, tytul, rok_wydania, gatunek, liczba_odtworzen, incr: int = 1):
         self.tytul=tytul
         self.rok_wydania=rok_wydania
@@ -22,11 +22,11 @@ class Filmy:
         return f'{self.tytul} ({self.rok_wydania})'
     
 
-id_movie_one = Filmy (tytul='Szczeki', rok_wydania ='1970', gatunek ='horror', liczba_odtworzen =95)
-id_movie_two = Filmy (tytul='Ptaki', rok_wydania='1960', gatunek ='thriller', liczba_odtworzen =9)
-id_movie_three = Filmy (tytul='Niemozliwe', rok_wydania ='2015', gatunek ='katastroficzny', liczba_odtworzen =6)
+id_movie_one = Film (tytul='Szczeki', rok_wydania ='1970', gatunek ='horror', liczba_odtworzen =95)
+id_movie_two = Film (tytul='Ptaki', rok_wydania='1960', gatunek ='thriller', liczba_odtworzen =9)
+id_movie_three = Film (tytul='Niemozliwe', rok_wydania ='2015', gatunek ='katastroficzny', liczba_odtworzen =6)
 
-class Seriale(Filmy):
+class Serial(Film):
     def __init__(self, numer_odcinka, numer_sezonu, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.numer_odcinka=numer_odcinka
@@ -39,12 +39,11 @@ class Seriale(Filmy):
         return f'{self.tytul} S0{self.numer_sezonu}E{self.numer_odcinka}'
 
    
-id_series_one = Seriale (tytul='Little Britain', rok_wydania='1995', gatunek='serial komediowy', liczba_odtworzen=15, numer_odcinka = '12', numer_sezonu = '2')
-id_series_two = Seriale (tytul='Dynastia', rok_wydania='1980', gatunek='serial obyczajowy', liczba_odtworzen=20, numer_odcinka = '22', numer_sezonu = '3')
-id_series_three = Seriale (tytul='Sherlock Holmes', rok_wydania='1970', gatunek='serial kryminalny', liczba_odtworzen=100, numer_odcinka = '2', numer_sezonu = '1')
-id_series_all = [id_series_one, id_series_two, id_series_three]
+id_series_one = Serial (tytul='Little Britain', rok_wydania='1995', gatunek='serial komediowy', liczba_odtworzen=15, numer_odcinka = '12', numer_sezonu = '2')
+id_series_two = Serial (tytul='Dynastia', rok_wydania='1980', gatunek='serial obyczajowy', liczba_odtworzen=20, numer_odcinka = '22', numer_sezonu = '3')
+id_series_three = Serial (tytul='Sherlock Holmes', rok_wydania='1970', gatunek='serial kryminalny', liczba_odtworzen=100, numer_odcinka = '2', numer_sezonu = '1')
 
-# pkt 6. Przechowuje filmy i seriale w jednej liście.
+# pkt 6. Przechowuje Film i Serial w jednej liście.
 all_library = [id_movie_one, id_movie_two,id_movie_three, id_series_one, id_series_two, id_series_three]
 
 # sprawdzenie czy inkrementacja działa poprawnie
@@ -60,14 +59,14 @@ print(id_series_one.tytul_rok())
 print(f'Liczba odtworzeń serialu { id_series_one.tytul } po jednym odtworzeniu to { id_series_one.liczba_odtworzen }')
 print('*********Koniec testowania metody PLAY***************')
 
-print('Wszystkie filmy i seriale:')
+print('Wszystkie Film i Serial:')
 for element in all_library:
-    if type(element) is Filmy:
+    if type(element) is Film:
         print('******FILM**********')
         print(element.tytul)
         print(element.rok_wydania)
         print(element.liczba_odtworzen)
-    elif type(element) is Seriale:
+    elif type(element) is Serial:
         print('******SERIAL**********')
         print(element.tytul)
         print(element.rok_wydania)
@@ -81,14 +80,14 @@ print('*************KONIEC Wyświetlania filmów i seriali**********************
 def get_movies():
     only_movies_def = []
     for el_movie in all_library:
-        if type(el_movie) is Filmy:
+        if type(el_movie) is Film:
             only_movies_def.append(el_movie)
     return only_movies_def
 
 def get_series():
     only_series_def = []
     for el_serie in all_library:
-        if type(el_serie) is Seriale:
+        if type(el_serie) is Serial:
             only_series_def.append(el_serie)
     return only_series_def
 
@@ -100,13 +99,13 @@ only_series = get_series()
 sorted_movies = sorted(only_movies, key=lambda x: x.tytul)
 sorted_series = sorted(only_series, key=lambda x: x.tytul)
 
-print('Posortowane filmy')
+print('Posortowane Film')
 for elements_in_sorted_movies in sorted_movies:
     print(elements_in_sorted_movies.tytul)
     print(elements_in_sorted_movies.rok_wydania)
     print(elements_in_sorted_movies.liczba_odtworzen)
 
-print('Posortowane seriale')
+print('Posortowane Serial')
 for elements_in_sorted_series in sorted_series:
     print(elements_in_sorted_series.tytul)
     print(elements_in_sorted_series.rok_wydania)
@@ -116,7 +115,7 @@ for elements_in_sorted_series in sorted_series:
 def search(title_name):
     result = ''
     for el_search in all_library:
-        if el_search.tytul == title_name:
+        if el_search.tytul.lower == title_name.lower:
             result = 'Tak, posiadamy taki tytuł'
             return result
         else:
@@ -124,10 +123,10 @@ def search(title_name):
     return result
 
 def generate_views():
-    random_number_list = randrange(6)
-    random_number_of_plays = randrange(1,101,1)
+    random_number_list = randint(0,6)
+    random_number_of_plays = randint(1,100)
     element = all_library[random_number_list]
-    element.liczba_odtworzen = random_number_of_plays
+    element.liczba_odtworzen += random_number_of_plays
     return element
 
 def generate_views_10_times():
@@ -135,7 +134,7 @@ def generate_views_10_times():
         generate_views()
 
 def top_titles(content_type):
-    if content_type == 'Filmy':
+    if content_type == 'Film':
         top_number_movies = 0
         only_movies = get_movies()
         for top_movie in only_movies:
@@ -143,7 +142,7 @@ def top_titles(content_type):
                 top_number_movies = top_movie.liczba_odtworzen
                 top_result_movies = top_movie
         return top_result_movies
-    elif content_type == 'Seriale':
+    elif content_type == 'Serial':
         top_number_series = 0
         only_series = get_series()
         for top_serie in only_series:
@@ -154,7 +153,8 @@ def top_titles(content_type):
    
    
 # Sprawdzenie poprawności działania funkcji search
-test_search_positive = search('Ptaki')
+print('Sprawdzenie poprawności działania funkcji search')
+test_search_positive = search('ptaki')
 test_search_negative = search('abc')
 print(test_search_positive)
 print(test_search_negative)
@@ -165,9 +165,9 @@ print('Sprawdzenie poprawności działania funkcji generate_views')
 gen_views = generate_views()
 print(gen_views)
 
-top_entry = top_titles('Seriale')
+top_entry = top_titles('Serial')
 print(f'Najczęściej oglądany był { top_entry.tytul } aż { top_entry.liczba_odtworzen } razy')
 
-top_entry = top_titles('Filmy')
+top_entry = top_titles('Film')
 print(f'Najczęściej oglądany był { top_entry.tytul } aż { top_entry.liczba_odtworzen } razy')
 
