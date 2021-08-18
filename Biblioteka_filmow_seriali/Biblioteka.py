@@ -77,6 +77,25 @@ for element in all_library:
 print('*************KONIEC Wyświetlania filmów i seriali***********************')
 
 # Funkcje
+def get_type(object_type):
+    abc = []
+    if type(object_type) is Film:
+        for element in all_library:
+            abc.append(element)
+    elif type(object_type) is Serial:
+        for element in all_library:
+            abc.append(element)
+    return abc
+
+print('TESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSST')
+
+test = get_type(Film)
+for a in test:
+    print(a)
+
+print('TESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSST')
+
+
 def get_movies():
     only_movies_def = []
     for el_movie in all_library:
@@ -115,7 +134,7 @@ for elements_in_sorted_series in sorted_series:
 def search(title_name):
     result = ''
     for el_search in all_library:
-        if el_search.tytul.lower == title_name.lower:
+        if el_search.tytul.lower() == title_name.lower():
             result = 'Tak, posiadamy taki tytuł'
             return result
         else:
@@ -123,7 +142,7 @@ def search(title_name):
     return result
 
 def generate_views():
-    random_number_list = randint(0,6)
+    random_number_list = randint(0,5)
     random_number_of_plays = randint(1,100)
     element = all_library[random_number_list]
     element.liczba_odtworzen += random_number_of_plays
